@@ -125,6 +125,7 @@
                 'touchstart mousedown': function (e) {
                     starFlag = true;
                     $('#size li').removeClass('active');
+                    $(this).addClass('active');
                 }
             });
 
@@ -150,7 +151,7 @@
                     if (starFlag) {
                         drawFlag = false;
 
-                        $(this).addClass('active');
+
                         drawStar(oldX, oldY, 20, penColor);
                         return;
                     };
