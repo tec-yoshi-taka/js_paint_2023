@@ -95,7 +95,7 @@
             context.fillRect(0, 0, WIDTH, HEIGHT);
             context.lineCap = 'round';
             context.lineJoin = 'round';
-
+            context.fillStyle = penColor;
             // 星を描画する関数（中心x座標、中心y座標、半径、色）
             const drawStar = function (cx, cy, r, color) {
                 let theta = -90;    // 角度修正（キャンバスでは3時方向が0度扱いのため12時方向を0度とする）
