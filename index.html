@@ -64,9 +64,10 @@
             WIDTH = canvasParent.clientWidth;
             HEIGHT = canvasParent.clientHeight;
         };
-
+        let penColor = "rgb(255,0,0)",
+            penSize = 2;
         let starFlag = false;
-
+        let oldColor = "rgb(255,0,0)";
 
         // setInterval(() => resize(), 0);
         //-----------------------------------------------------
@@ -83,9 +84,8 @@
             let canvasX = $('#paint').offset().left;
             let canvasY = $('#paint').offset().top;
             let context = canvas.getContext("2d");
-            let penColor = "rgb(255,0,0)",
-                penSize = 2;
-            let oldColor = "rgb(255,0,0)";
+
+
             $('#color li#red').addClass('active');
             $('#size li:nth-of-type(1)').addClass('active');
             // context.fillStyle = '#ffffFF';
@@ -121,14 +121,21 @@
                 context.lineTo(star[3].x, star[3].y);
                 context.closePath();  // パスを閉じる
                 context.fill();
+                console.log('星関数');
+
+                console.log(context.fillStyle);
             }
 
             $('.star').on({
                 'touchstart mousedown': function (e) {
+                    e.preventDefault();
                     penColor = oldColor;
                     starFlag = true;
                     $('#size li').removeClass('active');
                     $(this).addClass('active');
+                    context.fillStyle = penColor;
+                    console.log(context.fillStyle);
+                    console.log('星クリック');
                 }
             });
 
@@ -177,6 +184,7 @@
             });
             //消しゴム
             $("#eraser").on('touchstart mousedown', function (e) {
+                e.preventDefault();
                 starFlag = false;
                 oldColor = penColor;
                 $('#color li').removeClass('active');
@@ -184,11 +192,13 @@
                 $('#size li:nth-of-type(3)').addClass('active');
                 penSize = 14;
                 penColor = '#fff';
+                console.log(context.fillStyle);
+                console.log('消しゴムクリック');
             });
 
             //線幅を変更
             $("#size li").on('touchstart mousedown', function (e) {
-
+                e.preventDefault();
                 // console.log($(this).index());
                 if ($(this).index() < 3) {
                     $('#size li').removeClass('active');
@@ -209,7 +219,7 @@
 
             //色を変更
             $('#color li').on('touchstart mousedown', function (e) {
-
+                e.preventDefault();
                 $('#color li').removeClass('active');
                 $(this).addClass('active');
                 penColor = $(this).css('color');
