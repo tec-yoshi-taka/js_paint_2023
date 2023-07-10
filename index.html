@@ -85,6 +85,7 @@
             let context = canvas.getContext("2d");
             let penColor = "rgb(255,0,0)",
                 penSize = 2;
+            let oldColor = "rgb(255,0,0)";
             $('#color li#red').addClass('active');
             $('#size li:nth-of-type(1)').addClass('active');
             // context.fillStyle = '#ffffFF';
@@ -110,7 +111,8 @@
                 }
 
                 // 星を描画する
-                context.fillStyle = color;
+
+                context.fillStyle = penColor;
                 context.beginPath();  // パスの開始
                 context.moveTo(star[0].x, star[0].y);
                 context.lineTo(star[2].x, star[2].y);
@@ -123,6 +125,7 @@
 
             $('.star').on({
                 'touchstart mousedown': function (e) {
+                    penColor = oldColor;
                     starFlag = true;
                     $('#size li').removeClass('active');
                     $(this).addClass('active');
@@ -150,9 +153,7 @@
                     oldY = this.pageY - canvasY;
                     if (starFlag) {
                         drawFlag = false;
-
-
-                        drawStar(oldX, oldY, 20, penColor);
+                        drawStar(oldX, oldY, 30, penColor);
                         return;
                     };
                     context.beginPath();
@@ -176,6 +177,8 @@
             });
             //消しゴム
             $("#eraser").on('touchstart mousedown', function (e) {
+                starFlag = false;
+                oldColor = penColor;
                 $('#color li').removeClass('active');
                 $('#size li').removeClass('active');
                 $('#size li:nth-of-type(3)').addClass('active');
@@ -185,9 +188,11 @@
 
             //線幅を変更
             $("#size li").on('touchstart mousedown', function (e) {
+
                 // console.log($(this).index());
-                if ($(this).index() != 3) {
+                if ($(this).index() < 3) {
                     $('#size li').removeClass('active');
+                    penColor = oldColor;
                     starFlag = false;
                 }
                 if ($(this).index() == 0) {
@@ -204,9 +209,11 @@
 
             //色を変更
             $('#color li').on('touchstart mousedown', function (e) {
+
                 $('#color li').removeClass('active');
                 $(this).addClass('active');
                 penColor = $(this).css('color');
+                oldColor = penColor;
             });
 
         };
